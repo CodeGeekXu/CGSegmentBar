@@ -8,6 +8,8 @@
 #import "CGSegmentBar.h"
 
 #define TAG_TITLE 100
+#define kIndicatorWidth 40
+
 static NSString *const cellIdentfire = @"cellIdentfire";
 
 
@@ -54,14 +56,7 @@ static NSString *const cellIdentfire = @"cellIdentfire";
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
-    self.collectionView.frame = self.bounds;
-    
-    if (self.scrollDiretion == CGSegmentBarScrollDirectionHorizontal) {
-        self.seperatorLineView.frame = CGRectMake(0, CGRectGetHeight(self.bounds)-1, CGRectGetWidth(self.bounds), 1);
-    }else{
-        self.seperatorLineView.frame = CGRectMake(0, CGRectGetWidth(self.bounds)-1, 1, CGRectGetHeight(self.bounds));
-    }
+    [self placeSubViews];
 }
 
 
@@ -70,6 +65,8 @@ static NSString *const cellIdentfire = @"cellIdentfire";
 - (void)reload
 {
     [self.collectionView reloadData];
+    [self scrollIndicatorToIndexPath:self.selectedIndexPath
+                            animated:NO];
 }
 
 #pragma mark - private method
@@ -87,11 +84,39 @@ static NSString *const cellIdentfire = @"cellIdentfire";
     [self addSubview:self.collectionView];
     
     [self addSubview:self.seperatorLineView];
+    [self.collectionView addSubview:self.indicatorView];
+    [self.collectionView bringSubviewToFront:self.indicatorView];
+}
+
+- (void)placeSubViews
+{
+    self.collectionView.frame = self.bounds;
+    
+    if (self.scrollDiretion == CGSegmentBarScrollDirectionHorizontal) {
+        self.seperatorLineView.frame = CGRectMake(0, CGRectGetHeight(self.bounds)-1, CGRectGetWidth(self.bounds), 1);
+    }else{
+        self.seperatorLineView.frame = CGRectMake(0, CGRectGetWidth(self.bounds)-1, 1, CGRectGetHeight(self.bounds));
+    }
+}
+
+- (void)scrollIndicatorToIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated
+{
+    UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
+    CGRect frame = cell.frame;
+    
+    if (animated) {
+        [UIView animateWithDuration:0.3 animations:^{
+            self.indicatorView.center = CGPointMake(frame.origin.x+frame.size.width/2, CGRectGetHeight(self.bounds)-kIndicatorWidth/2);
+        }];
+    }else{
+        self.indicatorView.center = CGPointMake(frame.origin.x+frame.size.width/2, CGRectGetHeight(self.bounds));
+    }
 }
 
 - (void)didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [self scrollItemToIndexPath:indexPath];
+    [self scrollIndicatorToIndexPath:indexPath animated:YES];
     
     if (self.didSelectItemBlock) {
         self.didSelectItemBlock(indexPath.item);
@@ -152,10 +177,7 @@ static NSString *const cellIdentfire = @"cellIdentfire";
             attibutes = self.textAttributes;
         }
         
-        CGFloat textWidth = [text boundingRectWithSize:CGSizeMake(MAXFLOAT,0)
-                                               options:NSStringDrawingTruncatesLastVisibleLine
-                                            attributes:attibutes
-                                               context:nil].size.width;
+        CGFloat textWidth = [text sizeWithAttributes:attibutes].width;
         width = textWidth;
     }
    
@@ -174,14 +196,12 @@ static NSString *const cellIdentfire = @"cellIdentfire";
         titleLabel.textAlignment = NSTextAlignmentCenter;
         [cell.contentView addSubview:titleLabel];
     }
-    titleLabel.frame = cell.contentView.bounds;
     
     NSString *title = self.titles[indexPath.item];
     NSDictionary *attibutes = (self.selectedIndexPath.item == indexPath.item) ? self.selectedTextAttributes : self.textAttributes;
     NSAttributedString *attbutedText = [[NSAttributedString alloc]initWithString:title attributes:attibutes];
     titleLabel.attributedText = attbutedText;
-    
-    cell.contentView.backgroundColor = [UIColor redColor];
+    titleLabel.frame = CGRectMake(0, 0, [title sizeWithAttributes:attibutes].width, CGRectGetHeight(cell.contentView.bounds));
     
     return cell;
 }
@@ -209,6 +229,21 @@ static NSString *const cellIdentfire = @"cellIdentfire";
     self.indicatorView.backgroundColor = indicatorColor;
 }
 
+- (void)setIndicatorHidden:(BOOL)indicatorHidden
+{
+    _indicatorHidden = indicatorHidden;
+    self.indicatorView.hidden = indicatorHidden;
+}
+
+- (void)setIndicatorHeight:(CGFloat)indicatorHeight
+{
+    _indicatorHeight = indicatorHeight;
+    
+    CGRect frame = self.indicatorView.frame;
+    frame.size.height = indicatorHeight;
+    self.indicatorView.frame = frame;
+}
+
 #pragma mark - getter
 
 - (UICollectionView *)collectionView
@@ -234,7 +269,7 @@ static NSString *const cellIdentfire = @"cellIdentfire";
 - (UIView *)indicatorView
 {
     if (!_indicatorView) {
-        _indicatorView = [[UIView alloc]initWithFrame:CGRectZero];
+        _indicatorView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kIndicatorWidth, self.indicatorHeight)];
     }
     return _indicatorView;
 }
