@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'CGSegmentBar'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of CGSegmentBar.'
+  s.summary          = 'CGSegmentBar'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+CGSegmentBar is a segment view
                        DESC
 
   s.homepage         = 'https://github.com/CodeGeekXu/CGSegmentBar'
