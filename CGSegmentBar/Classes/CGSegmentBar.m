@@ -2,13 +2,13 @@
 //  CGSegmentBar.m
 //  CGSegmentBar
 //
-//  Created by 徐晨光 on 2018/8/31.
+//  Created by CodeGeekXu on 2018/8/31.
 //
 
 #import "CGSegmentBar.h"
 
 #define TAG_TITLE 100
-#define kIndicatorWidth 40
+#define kIndicatorWidth 30
 
 static NSString *const cellIdentfire = @"cellIdentfire";
 
@@ -24,6 +24,8 @@ static NSString *const cellIdentfire = @"cellIdentfire";
 
 @implementation CGSegmentBar
 
+#pragma mark - system methods
+    
 - (instancetype)init
 {
     self = [super init];
@@ -59,17 +61,18 @@ static NSString *const cellIdentfire = @"cellIdentfire";
     [self placeSubViews];
 }
 
-
-#pragma mark - public method
+#pragma mark - public methods
 
 - (void)reload
 {
     [self.collectionView reloadData];
-    [self scrollIndicatorToIndexPath:self.selectedIndexPath
-                            animated:NO];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self scrollIndicatorToIndexPath:self.selectedIndexPath
+                                animated:NO];
+    });
 }
 
-#pragma mark - private method
+#pragma mark - private methods
 
 - (void)initSetupStyle
 {
@@ -78,68 +81,60 @@ static NSString *const cellIdentfire = @"cellIdentfire";
     self.widthStyle = CGSegmentBarWidthStyleFixed;
     self.paddingInsets = UIEdgeInsetsMake(0, 10, 0, 10);
     self.interitemSpacing = 10;
-    self.scrollDiretion = CGSegmentBarScrollDirectionHorizontal;
     
     [self.collectionView registerClass:UICollectionViewCell.class  forCellWithReuseIdentifier:cellIdentfire];
     [self addSubview:self.collectionView];
     
-    [self addSubview:self.seperatorLineView];
     [self.collectionView addSubview:self.indicatorView];
     [self.collectionView bringSubviewToFront:self.indicatorView];
+    
+    [self addSubview:self.seperatorLineView];
 }
 
 - (void)placeSubViews
 {
     self.collectionView.frame = self.bounds;
-    
-    if (self.scrollDiretion == CGSegmentBarScrollDirectionHorizontal) {
-        self.seperatorLineView.frame = CGRectMake(0, CGRectGetHeight(self.bounds)-1, CGRectGetWidth(self.bounds), 1);
-    }else{
-        self.seperatorLineView.frame = CGRectMake(0, CGRectGetWidth(self.bounds)-1, 1, CGRectGetHeight(self.bounds));
-    }
+    self.seperatorLineView.frame = CGRectMake(0, CGRectGetHeight(self.bounds)-1, CGRectGetWidth(self.bounds), 1);
 }
 
 - (void)scrollIndicatorToIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated
 {
-    UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
-    CGRect frame = cell.frame;
+    UICollectionViewLayoutAttributes *attributes = [self.collectionView layoutAttributesForItemAtIndexPath:indexPath];
+    CGPoint moveToCenter = CGPointMake(attributes.center.x, CGRectGetHeight(self.bounds) - self.indicatorHeight/2);;
     
     if (animated) {
         [UIView animateWithDuration:0.3 animations:^{
-            self.indicatorView.center = CGPointMake(frame.origin.x+frame.size.width/2, CGRectGetHeight(self.bounds)-kIndicatorWidth/2);
+            self.indicatorView.center = moveToCenter;
         }];
     }else{
-        self.indicatorView.center = CGPointMake(frame.origin.x+frame.size.width/2, CGRectGetHeight(self.bounds));
+        self.indicatorView.center = moveToCenter;
     }
 }
 
 - (void)didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self scrollItemToIndexPath:indexPath];
-    [self scrollIndicatorToIndexPath:indexPath animated:YES];
+    self.selectedIndexPath = indexPath;
+    [self.collectionView reloadData];
     
     if (self.didSelectItemBlock) {
         self.didSelectItemBlock(indexPath.item);
     }
     
-    self.selectedIndexPath = indexPath;
-    [self.collectionView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self scrollItemToIndexPath:indexPath];
+        [self scrollIndicatorToIndexPath:indexPath animated:YES];
+    });
 }
 
 - (void)scrollItemToIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewScrollPosition scrollPosition = UICollectionViewScrollPositionCenteredHorizontally;
-    if (self.scrollDiretion == CGSegmentBarScrollDirectionVertical) {
-        scrollPosition = UICollectionViewScrollPositionCenteredVertically;
-    }else{
-        scrollPosition = UICollectionViewScrollPositionCenteredHorizontally;
-    }
     [self.collectionView scrollToItemAtIndexPath:indexPath
                                 atScrollPosition:scrollPosition
                                         animated:YES];
 }
 
-#pragma mark - UICollectionView代理
+#pragma mark - UICollectionView
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -201,7 +196,12 @@ static NSString *const cellIdentfire = @"cellIdentfire";
     NSDictionary *attibutes = (self.selectedIndexPath.item == indexPath.item) ? self.selectedTextAttributes : self.textAttributes;
     NSAttributedString *attbutedText = [[NSAttributedString alloc]initWithString:title attributes:attibutes];
     titleLabel.attributedText = attbutedText;
-    titleLabel.frame = CGRectMake(0, 0, [title sizeWithAttributes:attibutes].width, CGRectGetHeight(cell.contentView.bounds));
+    
+    if(self.widthStyle == CGSegmentBarWidthStyleFixed){
+        titleLabel.frame = cell.contentView.bounds;
+    }else{
+        titleLabel.frame = CGRectMake(0, 0, [title sizeWithAttributes:attibutes].width, CGRectGetHeight(cell.contentView.bounds));
+    }
     
     return cell;
 }
@@ -214,14 +214,6 @@ static NSString *const cellIdentfire = @"cellIdentfire";
 }
 
 #pragma mark - setter
-
-- (void)setScrollDiretion:(CGSegmentBarScrollDirection)scrollDiretion
-{
-    _scrollDiretion = scrollDiretion;
-    
-    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
-    layout.scrollDirection = (CGSegmentBarScrollDirectionVertical == scrollDiretion) ? UICollectionViewScrollDirectionVertical : UICollectionViewScrollDirectionHorizontal;
-}
 
 - (void)setIndicatorColor:(UIColor *)indicatorColor
 {
@@ -242,6 +234,13 @@ static NSString *const cellIdentfire = @"cellIdentfire";
     CGRect frame = self.indicatorView.frame;
     frame.size.height = indicatorHeight;
     self.indicatorView.frame = frame;
+}
+    
+- (void)setSelectedIndex:(NSInteger)selectedIndex
+{
+    _selectedIndex = selectedIndex;
+                      
+    [self didSelectItemAtIndexPath:[NSIndexPath indexPathForItem:selectedIndex inSection:0]];
 }
 
 #pragma mark - getter

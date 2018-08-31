@@ -38,10 +38,10 @@
 
 /* Begin PBXFileReference section */
 		1101043A6B87A01F421EA697 /* Pods-CGSegmentBar_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CGSegmentBar_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CGSegmentBar_Example/Pods-CGSegmentBar_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		3857BE4F6BDC347317430609 /* CGSegmentBar.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = CGSegmentBar.podspec; path = ../CGSegmentBar.podspec; sourceTree = "<group>"; };
+		3857BE4F6BDC347317430609 /* CGSegmentBar.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = CGSegmentBar.podspec; path = ../CGSegmentBar.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		3FAB270ED180817363459C87 /* Pods_CGSegmentBar_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CGSegmentBar_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		43C167FFE585A0B5C1DE8EBB /* Pods-CGSegmentBar_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CGSegmentBar_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-CGSegmentBar_Example/Pods-CGSegmentBar_Example.release.xcconfig"; sourceTree = "<group>"; };
-		4C835CD5C9FEC5B9C00BF979 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		4C835CD5C9FEC5B9C00BF979 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		4FA2B4D229AA5CC9FBB8A28D /* Pods-CGSegmentBar_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CGSegmentBar_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CGSegmentBar_Tests/Pods-CGSegmentBar_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* CGSegmentBar_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CGSegmentBar_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -65,7 +65,7 @@
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		80B2C4289C9E1CCF48E9F347 /* Pods-CGSegmentBar_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CGSegmentBar_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CGSegmentBar_Tests/Pods-CGSegmentBar_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		9679EAFFDA44E519174E06FF /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		9679EAFFDA44E519174E06FF /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		E962D2091A0DDDEDF5CA06F2 /* Pods_CGSegmentBar_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CGSegmentBar_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -344,10 +344,12 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-CGSegmentBar_Example/Pods-CGSegmentBar_Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/CGSegmentBar/CGSegmentBar.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CGSegmentBar.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
