@@ -8,12 +8,6 @@
 ## CGSegmentBar
 A view like UISegmentedControl,you can customize your style.
 
-## Example
-
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
-
 ## Installation
 
 CGSegmentBar is available through [CocoaPods](https://cocoapods.org). To install
@@ -22,6 +16,25 @@ it, simply add the following line to your Podfile:
 ```ruby
 pod 'CGSegmentBar'
 ```
+
+## Example
+
+To run the example project, clone the repo, and run `pod install` from the Example directory first.
+
+## Usage
+
+CGSegmentBar *dynamicSegmentBar = [[CGSegmentBar alloc]initWithFrame:CGRectMake(0, 100, CGRectGetWidth(self.view.bounds), 40)];
+dynamicSegmentBar.titles = @[@"America",@"China",@"Japan",@"Germany",@"France",@"Italy",@"Spain",@"India"];
+dynamicSegmentBar.widthStyle = CGSegmentBarWidthStyleDynamic;
+dynamicSegmentBar.interitemSpacing = 30;
+dynamicSegmentBar.paddingInsets = UIEdgeInsetsMake(0, 10, 0, 10);
+dynamicSegmentBar.indicatorHeight = 2;
+dynamicSegmentBar.indicatorColor = [UIColor blueColor];
+[dynamicSegmentBar reload];
+dynamicSegmentBar.didSelectItemBlock = ^(NSUInteger index) {
+        
+};
+[self.view addSubview:dynamicSegmentBar];
 
 ## Author
 
