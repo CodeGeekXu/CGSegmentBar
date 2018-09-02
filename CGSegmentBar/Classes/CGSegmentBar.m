@@ -72,6 +72,23 @@ static NSString *const cellIdentfire = @"cellIdentfire";
     });
 }
 
+- (void)setSelectedIndex:(NSInteger)selectedIndex animated:(BOOL)animated
+{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:selectedIndex inSection:0];
+    
+    self.selectedIndexPath = indexPath;
+    [self.collectionView reloadData];
+    
+    if (self.didSelectItemBlock) {
+        self.didSelectItemBlock(indexPath.item);
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self scrollItemToIndexPath:indexPath animated:animated];
+        [self scrollIndicatorToIndexPath:indexPath animated:animated];
+    });
+}
+
 #pragma mark - private methods
 
 - (void)initSetupStyle
@@ -111,27 +128,12 @@ static NSString *const cellIdentfire = @"cellIdentfire";
     }
 }
 
-- (void)didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    self.selectedIndexPath = indexPath;
-    [self.collectionView reloadData];
-    
-    if (self.didSelectItemBlock) {
-        self.didSelectItemBlock(indexPath.item);
-    }
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self scrollItemToIndexPath:indexPath];
-        [self scrollIndicatorToIndexPath:indexPath animated:YES];
-    });
-}
-
-- (void)scrollItemToIndexPath:(NSIndexPath *)indexPath
+- (void)scrollItemToIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated
 {
     UICollectionViewScrollPosition scrollPosition = UICollectionViewScrollPositionCenteredHorizontally;
     [self.collectionView scrollToItemAtIndexPath:indexPath
                                 atScrollPosition:scrollPosition
-                                        animated:YES];
+                                        animated:animated];
 }
 
 #pragma mark - UICollectionView
@@ -210,7 +212,7 @@ static NSString *const cellIdentfire = @"cellIdentfire";
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     
-    [self didSelectItemAtIndexPath:indexPath];
+    [self setSelectedIndex:indexPath.item animated:YES];
 }
 
 #pragma mark - setter
@@ -234,13 +236,6 @@ static NSString *const cellIdentfire = @"cellIdentfire";
     CGRect frame = self.indicatorView.frame;
     frame.size.height = indicatorHeight;
     self.indicatorView.frame = frame;
-}
-    
-- (void)setSelectedIndex:(NSInteger)selectedIndex
-{
-    _selectedIndex = selectedIndex;
-                      
-    [self didSelectItemAtIndexPath:[NSIndexPath indexPathForItem:selectedIndex inSection:0]];
 }
 
 #pragma mark - getter
@@ -316,6 +311,11 @@ static NSString *const cellIdentfire = @"cellIdentfire";
         _selectedIndexPath = [NSIndexPath indexPathForItem:0 inSection:0];
     }
     return _selectedIndexPath;
+}
+
+- (NSInteger)selectedIndex
+{
+    return self.selectedIndexPath.item;
 }
 
 @end

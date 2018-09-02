@@ -16,7 +16,7 @@ typedef void(^CGSegmentBarDidSelectItem)(NSUInteger index);
 
 @interface CGSegmentBar : UIView
 
-    @property (nonatomic, strong) NSDictionary *textAttributes; // nomal title attributes
+@property (nonatomic, strong) NSDictionary *textAttributes; // nomal title attributes
 @property (nonatomic, strong) NSDictionary *selectedTextAttributes; // selected title attributes
 
 @property (nonatomic, strong) UIColor      *indicatorColor;
@@ -27,10 +27,12 @@ typedef void(^CGSegmentBarDidSelectItem)(NSUInteger index);
 @property (nonatomic, assign) CGFloat                     interitemSpacing;// title interitem
 @property (nonatomic, assign) CGSegmentBarWidthStyle      widthStyle;
 
-@property (nonatomic, strong) NSArray<NSString *>    *titles;
-@property (nonatomic, assign) NSInteger selectedIndex;
+@property (nonatomic, strong) NSArray<NSString *>     *titles;
+@property (nonatomic, readonly) NSInteger             selectedIndex;
 @property (nonatomic, copy) CGSegmentBarDidSelectItem didSelectItemBlock;
 
 - (void)reload;
+
+- (void)setSelectedIndex:(NSInteger)selectedIndex animated:(BOOL)animated;
 
 @end

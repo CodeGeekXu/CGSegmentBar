@@ -40,12 +40,13 @@
     dynamicSegmentBar.paddingInsets = UIEdgeInsetsMake(0, 10, 0, 10);
     dynamicSegmentBar.indicatorHeight = 2;
     dynamicSegmentBar.indicatorColor = [UIColor blueColor];
-    dynamicSegmentBar.selectedIndex = 2;
     [dynamicSegmentBar reload];
     dynamicSegmentBar.didSelectItemBlock = ^(NSUInteger index) {
         
     };
     [self.view addSubview:dynamicSegmentBar];
+    
+    [dynamicSegmentBar setSelectedIndex:2 animated:YES];
 
 }
 

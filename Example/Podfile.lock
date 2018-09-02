@@ -1,42 +1,16 @@
 PODS:
   - CGSegmentBar (0.1.0)
-  - Expecta (1.0.6)
-  - "Expecta+Snapshots (3.1.1)":
-    - Expecta (~> 1.0)
-    - FBSnapshotTestCase/Core (~> 2.0)
-    - Specta (~> 1.0)
-  - FBSnapshotTestCase (2.1.4):
-    - FBSnapshotTestCase/SwiftSupport (= 2.1.4)
-  - FBSnapshotTestCase/Core (2.1.4)
-  - FBSnapshotTestCase/SwiftSupport (2.1.4):
-    - FBSnapshotTestCase/Core
-  - Specta (1.0.7)
 
 DEPENDENCIES:
   - CGSegmentBar (from `../`)
-  - Expecta
-  - "Expecta+Snapshots"
-  - FBSnapshotTestCase
-  - Specta
-
-SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
-    - Expecta
-    - "Expecta+Snapshots"
-    - FBSnapshotTestCase
-    - Specta
 
 EXTERNAL SOURCES:
   CGSegmentBar:
     :path: "../"
 
 SPEC CHECKSUMS:
-  CGSegmentBar: 43981e84ca6be141670eaa3669e51e359ba83214
-  Expecta: 3b6bd90a64b9a1dcb0b70aa0e10a7f8f631667d5
-  "Expecta+Snapshots": dcff217eef506dabd6dfdc7864ea2da321fafbb8
-  FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
-  Specta: 3e1bd89c3517421982dc4d1c992503e48bd5fe66
+  CGSegmentBar: ffaa5baa22bdd0fde2075bb30f2f3be5fd701fa7
 
-PODFILE CHECKSUM: 63259faba221b29cb112acdecad36d856bbd8053
+PODFILE CHECKSUM: dfce84e2d55fa6c2942c60c9d08d9de645fa3ffb
 
 COCOAPODS: 1.5.3
