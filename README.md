@@ -5,6 +5,9 @@
 [![License](https://img.shields.io/cocoapods/l/CGSegmentBar.svg?style=flat)](https://cocoapods.org/pods/CGSegmentBar)
 [![Platform](https://img.shields.io/cocoapods/p/CGSegmentBar.svg?style=flat)](https://cocoapods.org/pods/CGSegmentBar)
 
+## CGSegmentBar
+A view like UISegmentedControl,you can customize your style.
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
