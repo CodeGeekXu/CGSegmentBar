@@ -23,6 +23,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Usage
 
+```objective-c
     CGSegmentBar *dynamicSegmentBar = [[CGSegmentBar alloc]initWithFrame:CGRectMake(0, 100, CGRectGetWidth(self.view.bounds), 40)];
     dynamicSegmentBar.titles = @[@"America",@"China",@"Japan",@"Germany",@"France",@"Italy",@"Spain",@"India"];
     dynamicSegmentBar.widthStyle = CGSegmentBarWidthStyleDynamic;
@@ -37,6 +38,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
     [self.view addSubview:dynamicSegmentBar];
     
     [dynamicSegmentBar setSelectedIndex:2 animated:YES];
+```
 
 ## Author
 
