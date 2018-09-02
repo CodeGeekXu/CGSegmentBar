@@ -24,20 +24,20 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 ## Usage
 
 ```objective-c
-    CGSegmentBar *dynamicSegmentBar = [[CGSegmentBar alloc]initWithFrame:CGRectMake(0, 100, CGRectGetWidth(self.view.bounds), 40)];
-    dynamicSegmentBar.titles = @[@"America",@"China",@"Japan",@"Germany",@"France",@"Italy",@"Spain",@"India"];
-    dynamicSegmentBar.widthStyle = CGSegmentBarWidthStyleDynamic;
-    dynamicSegmentBar.interitemSpacing = 30;
-    dynamicSegmentBar.paddingInsets = UIEdgeInsetsMake(0, 10, 0, 10);
-    dynamicSegmentBar.indicatorHeight = 2;
-    dynamicSegmentBar.indicatorColor = [UIColor blueColor];
-    [dynamicSegmentBar reload];
-    dynamicSegmentBar.didSelectItemBlock = ^(NSUInteger index) {
+CGSegmentBar *dynamicSegmentBar = [[CGSegmentBar alloc]initWithFrame:CGRectMake(0, 100, CGRectGetWidth(self.view.bounds), 40)];
+dynamicSegmentBar.titles = @[@"America",@"China",@"Japan",@"Germany",@"France",@"Italy",@"Spain",@"India"];
+dynamicSegmentBar.widthStyle = CGSegmentBarWidthStyleDynamic;
+dynamicSegmentBar.interitemSpacing = 30;
+dynamicSegmentBar.paddingInsets = UIEdgeInsetsMake(0, 10, 0, 10);
+dynamicSegmentBar.indicatorHeight = 2;
+dynamicSegmentBar.indicatorColor = [UIColor blueColor];
+[dynamicSegmentBar reload];
+dynamicSegmentBar.didSelectItemBlock = ^(NSUInteger index) {
         
-    };
-    [self.view addSubview:dynamicSegmentBar];
+};
+[self.view addSubview:dynamicSegmentBar];
     
-    [dynamicSegmentBar setSelectedIndex:2 animated:YES];
+[dynamicSegmentBar setSelectedIndex:2 animated:YES];
 ```
 
 ## Author
