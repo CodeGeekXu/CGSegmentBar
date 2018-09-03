@@ -66,9 +66,15 @@ static NSString *const cellIdentfire = @"cellIdentfire";
 - (void)reload
 {
     [self.collectionView reloadData];
+    self.indicatorView.hidden = self.indicatorHidden;
+    
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self scrollIndicatorToIndexPath:self.selectedIndexPath
-                                animated:NO];
+        if (self.titles.count) {
+            [self scrollIndicatorToIndexPath:self.selectedIndexPath
+                                    animated:NO];
+        }else{
+            self.indicatorView.hidden = YES;
+        }
     });
 }
 
